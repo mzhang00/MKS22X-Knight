@@ -16,5 +16,8 @@ public class KnightBoard{
       }
     }
   }
-  
+
+  public String toString(){
+    return "";
+  }
 }
