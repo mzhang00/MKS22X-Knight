@@ -18,6 +18,23 @@ public class KnightBoard{
   }
 
   public String toString(){
-    return "";
+    String ans = "";
+    int count = 1;
+    for (int i = 0; i < data.length; i++){
+      for (int c = 0; c < data[0].length; c++){
+        if (data[i][c] < 10){
+          ans += " " + data[i][c];
+        }else{
+          ans += data[i][c];
+        }
+        if (c < data.length - 1){
+          ans += " ";
+        }
+      }
+      if (i < data[0].length - 1){
+        ans += "\n";
+      }
+    }
+    return ans;
   }
 }
