@@ -6,11 +6,15 @@ public class KnightBoard{
       throw new IllegalArgumentException();
     }
     data = new int[startingRows][startingCols];
-    for (int r = 0; r < startingRows; r++){
-      for (int c = 0; c < startingCols; c++){
+    clearBoard();
+  }
+
+  public void clearBoard(){
+    for (int r = 0; r < data.length; r++){
+      for (int c = 0; c < data[0].length; c++){
         data[r][c] = 0;
       }
     }
   }
-
+  
 }
