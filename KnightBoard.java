@@ -43,6 +43,17 @@ public class KnightBoard{
   }
 
   public boolean solve(int startingRow, int startingCol){
+    int count = 0;
+    for (int i = 0; i < data.length; i++){
+      for (int c = 0; c < data[0].length; c++){
+        if (data[i][c] != 0){
+          count++;
+        }
+      }
+    }
+    if (count > 0){
+      throw new IllegalStateException();
+    }
     return true;
   }
 }
