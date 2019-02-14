@@ -54,6 +54,9 @@ public class KnightBoard{
     if (count > 0){
       throw new IllegalStateException();
     }
+    if (startingCol < 0 || startingRow < 0 || startingCol >= data[0].length || startingRow >= data.length){
+      throw new IllegalArgumentException();
+    }
     return true;
   }
 }
