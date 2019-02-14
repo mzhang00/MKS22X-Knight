@@ -42,4 +42,7 @@ public class KnightBoard{
     return ans;
   }
 
+  public boolean solve(int startingRow, int startingCol){
+    return true;
+  }
 }
