@@ -57,6 +57,10 @@ public class KnightBoard{
     if (startingCol < 0 || startingRow < 0 || startingCol >= data[0].length || startingRow >= data.length){
       throw new IllegalArgumentException();
     }
+    return solveH(startingRow, startingCol, 0);
+  }
+
+  private boolean solveH(int row ,int col, int moveNumber){
     return true;
   }
 }
