@@ -1,5 +1,7 @@
 public class KnightBoard{
   int[][] data;
+  int[] xmoves = {1,1,2,2,-1,-1,-2,-2};
+  int[] ymoves = {2,-2,1,-1,2,-2,1,-1};
 
   public KnightBoard(int startingRows,int startingCols){
     if (startingCols <= 0 || startingRows <= 0){
@@ -63,4 +65,20 @@ public class KnightBoard{
   private boolean solveH(int row ,int col, int moveNumber){
     return true;
   }
+
+  public int countSolutions(int startingRow, int startingCol){
+    return countH(startingRow, startingCol, 1);
+  }
+
+  private int countH(int startingRow, int startingCol, int moveNumber){
+    if (moveNumber == data.length * data[0].length){
+      return 1;
+    }
+    if (startingCol < 0 || startingRow < 0 || startingCol >= data[0].length || startingRow >= data.length){
+      return 0;
+    }
+    return 0;
+    //finish at home
+  }
+
 }
