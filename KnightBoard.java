@@ -104,8 +104,12 @@ public class KnightBoard{
     if (moveNumber == data.length * data[0].length){
       return 1;
     }
-    return 0;
-    //finish at home
+    //need to fix :(
+    int counter = 0;
+    for (int i = 0; i <= 7; i++){
+      counter += countH(row + xmoves[i], col + ymoves[i], moveNumber + 1);
+    }
+    return counter;
   }
 
   private boolean addKnight(int row, int col, int moveNumber){
