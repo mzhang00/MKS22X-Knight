@@ -67,6 +67,20 @@ public class KnightBoard{
   }
 
   public int countSolutions(int startingRow, int startingCol){
+    int count = 0;
+    for (int i = 0; i < data.length; i++){
+      for (int c = 0; c < data[0].length; c++){
+        if (data[i][c] != 0){
+          count++;
+        }
+      }
+    }
+    if (count > 0){
+      throw new IllegalStateException();
+    }
+    if (startingCol < 0 || startingRow < 0 || startingCol >= data[0].length || startingRow >= data.length){
+      throw new IllegalArgumentException();
+    }
     return countH(startingRow, startingCol, 1);
   }
 
