@@ -65,6 +65,15 @@ public class KnightBoard{
   private boolean solveH(int row ,int col, int moveNumber){
     if (moveNumber == data.length * data[0].length){
       return true;
+    }else{
+      if (addKnight(row, col, moveNumber)){
+        for (int i = 0; i <= 7; i++){
+          if (solveH(row + xmoves[i], col + ymoves[i], moveNumber + 1)){
+            return true;
+          }
+        }
+      }
+      removeKnight(row, col);
     }
     return false;
   }
