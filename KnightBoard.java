@@ -84,15 +84,20 @@ public class KnightBoard{
     return countH(startingRow, startingCol, 1);
   }
 
-  private int countH(int startingRow, int startingCol, int moveNumber){
+  private int countH(int row, int col, int moveNumber){
+    if (col < 0 || row < 0 || col >= data[0].length || row >= data.length){
+      return 0;
+    }
     if (moveNumber == data.length * data[0].length){
       return 1;
-    }
-    if (startingCol < 0 || startingRow < 0 || startingCol >= data[0].length || startingRow >= data.length){
-      return 0;
     }
     return 0;
     //finish at home
   }
 
+  private boolean addKnight(int row, int col, int moveNumber){
+    if (col < 0 || row < 0 || col >= data[0].length || row >= data.length){
+      return false;
+    }
+  }
 }
