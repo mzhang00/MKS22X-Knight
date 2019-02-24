@@ -99,5 +99,10 @@ public class KnightBoard{
     if (col < 0 || row < 0 || col >= data[0].length || row >= data.length){
       return false;
     }
+    if (data[row][col] == 0){
+      data[row][col] = moveNumber;
+      return true;
+    }
+    return false;
   }
 }
