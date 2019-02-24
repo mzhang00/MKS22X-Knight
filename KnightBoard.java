@@ -33,11 +33,11 @@ public class KnightBoard{
         }else{
           ans += data[i][c];
         }
-        if (c < data.length - 1){
+        if (c < data[0].length - 1){
           ans += " ";
         }
       }
-      if (i < data[0].length - 1){
+      if (i < data.length - 1){
         ans += "\n";
       }
     }

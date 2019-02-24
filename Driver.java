@@ -9,6 +9,7 @@ public class Driver{
         System.out.println();
         k = new KnightBoard(i, c);
         System.out.println(k.solve(0, 0));
+        System.out.println();
         System.out.println(k);
         System.out.println("-------------------------------------------------");
       }
