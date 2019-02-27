@@ -74,8 +74,8 @@ public class KnightBoard{
       addKnight(row, col, moveNumber);
       return true;
     }else{
-      optimizeX(xmoves);
-      optimizeY(ymoves);
+      xmoves = optimizeX(row, col, xmoves);
+      ymoves = optimizeY(row, col, ymoves);
       if (addKnight(row, col, moveNumber)){
         for (int i = 0; i <= 7; i++){
           if (solveO(row + xmoves[i], col + ymoves[i], moveNumber + 1)){
@@ -88,13 +88,56 @@ public class KnightBoard{
     return false;
   }
 
-  private void optimizeX(int[] x){
-
+  private int[] optimizeX(int row, int col, int[] x){
+    int[] newx = new int[x.length];
+    int[] values = new int[x.length];
+    for (int i = 0; i <= 7; i++){
+      if (addKnight(r + xmoves[i], c + ymoves[i], 1)){
+        values[i] = datamoves[r + xmoves[i]][c + ymoves[i]];
+        newx[i] = xmoves[i];
+        removeKnight(r + xmoves[i], c + ymoves[i]);      
+      }else{
+        values[i] = 9;
+        newx[i] = xmoves[i];
+      }
+    }
+    selectionSort(values, newx);
+    return newx;
   }
 
+  private void selectionSort(int[] ary, int[] ary2){
+    for (int i = 0; i < ary.length; i++){
+        int minindex = i;
+        int temp = 0;
+        for (int j = i; j < ary.length; j++){
+            if(ary[j] < ary[minindex]){
+                minindex = j;
+            }
+        }
+        temp = ary[i];
+        int temp2 = ary2[i];
+        ary[i] = ary[minindex];
+        ary2[i] = ary2[minindex];
+        ary[minindex] = temp;
+        ary2[minindex] = temp2;
+    }
+  }
   
-  private void optimizeY(int[] y){
-    
+  private int[] optimizeY(int row, int col, int[] y){
+    int[] newy = new int[y.length];
+    int[] values = new int[y.length];
+    for (int i = 0; i <= 7; i++){
+      if (addKnight(r + xmoves[i], c + ymoves[i], 1)){
+        values[i] = datamoves[r + xmoves[i]][c + ymoves[i]];
+        newx[i] = ymoves[i];
+        removeKnight(r + xmoves[i], c + ymoves[i]);      
+      }else{
+        values[i] = 9;
+        newx[i] = ymoves[i];
+      }
+    }
+    selectionSort(values, newy);
+    return newy;
   }
 
   private void findMoves(){
