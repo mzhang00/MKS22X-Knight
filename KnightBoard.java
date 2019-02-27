@@ -15,6 +15,7 @@ public class KnightBoard{
     datamoves = new int[startingRows][startingCols];
     clearBoard();
     clearMoves();
+    findMoves();
   }
 
   private void clearBoard(){
@@ -81,7 +82,18 @@ public class KnightBoard{
   }
 
   private void findMoves(){
-
+    for (int r = 0; r < data.length; r++){
+      for (int c = 0; c < data[0].length; c++){
+        int value = 0;
+        for (int i = 0; i <= 7; i++){
+          if (addKnight(r + xmoves[i], c + ymoves[i], 1)){
+            value++;
+            removeKnight(r + xmoves[i], c + ymoves[i]);
+          }
+        }
+        datamoves[r][c] = value;
+      }
+    }
   }
 
   private boolean solveH(int row ,int col, int moveNumber){
