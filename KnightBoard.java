@@ -4,7 +4,7 @@ public class KnightBoard{
   int[][] data;
   int[] xmoves = {1,1,2,2,-1,-1,-2,-2};
   int[] ymoves = {2,-2,1,-1,2,-2,1,-1};
-  //int[] totalmoves = {1,2,1,-2,2,1,2,-1,-1,2,-1,-2,-2,1,-2,-1};
+  int[] totalmoves = {1,2,1,-2,2,1,2,-1,-1,2,-1,-2,-2,1,-2,-1};
   int[][] datamoves;
 
   public KnightBoard(int startingRows,int startingCols){
@@ -65,17 +65,22 @@ public class KnightBoard{
     if (startingCol < 0 || startingRow < 0 || startingCol >= data[0].length || startingRow >= data.length){
       throw new IllegalArgumentException();
     }
-    //return solveH(startingRow, startingCol, 1);
-    return solveO(startingRow, startingCol, 1);
+    return solveH(startingRow, startingCol, 1);
+    //return solveO(startingRow, startingCol, 1);
   }
 
   private boolean solveO(int row, int col, int moveNumber){
+    totalmoves = optimize(row, col, xmoves);
+    for (int a = 0; a < 8; a++){
+      xmoves[a] = totalmoves[a];
+    }
+    for (int b = 0; b < 8; b++){
+      ymoves[b] = totalmoves[b + 8];
+    }
     if (moveNumber > data.length * data[0].length){
       addKnight(row, col, moveNumber);
       return true;
     }else{
-      xmoves = optimizeX(row, col, xmoves);
-      ymoves = optimizeY(row, col, ymoves);
       if (addKnight(row, col, moveNumber)){
         for (int i = 0; i <= 7; i++){
           if (solveO(row + xmoves[i], col + ymoves[i], moveNumber + 1)){
@@ -88,24 +93,33 @@ public class KnightBoard{
     return false;
   }
 
-  private int[] optimizeX(int row, int col, int[] x){
+  private int[] optimize(int r, int c, int[] x){
     int[] newx = new int[x.length];
     int[] values = new int[x.length];
+    int[] newy = new int[x.length];
     for (int i = 0; i <= 7; i++){
-      if (addKnight(r + xmoves[i], c + ymoves[i], 1)){
+      int col = c + ymoves[i];
+      int row = r + xmoves[i];
+      if (!(col < 0 || row < 0 || col >= data[0].length || row >= data.length)){
         values[i] = datamoves[r + xmoves[i]][c + ymoves[i]];
         newx[i] = xmoves[i];
-        removeKnight(r + xmoves[i], c + ymoves[i]);      
+        newy[i] = ymoves[i];
       }else{
         values[i] = 9;
         newx[i] = xmoves[i];
+        newy[i] = ymoves[i];
       }
     }
-    selectionSort(values, newx);
-    return newx;
+    selectionSort(values, newx, newy);
+    int[] newtotal = new int[16];
+    for (int i = 0; i < 8; i++){
+      newtotal[i] = newx[i];
+      newtotal[i + 8] = newy[i];
+    }
+    return newtotal;
   }
 
-  private void selectionSort(int[] ary, int[] ary2){
+  private void selectionSort(int[] ary, int[] ary2, int[] ary3){
     for (int i = 0; i < ary.length; i++){
         int minindex = i;
         int temp = 0;
@@ -116,29 +130,33 @@ public class KnightBoard{
         }
         temp = ary[i];
         int temp2 = ary2[i];
+        int temp3 = ary3[i];
         ary[i] = ary[minindex];
         ary2[i] = ary2[minindex];
+        ary3[i] = ary3[minindex];
         ary[minindex] = temp;
         ary2[minindex] = temp2;
+        ary3[minindex] = temp3;
     }
   }
   
-  private int[] optimizeY(int row, int col, int[] y){
+/*  private int[] optimizeY(int r, int c, int[] y){
     int[] newy = new int[y.length];
     int[] values = new int[y.length];
     for (int i = 0; i <= 7; i++){
-      if (addKnight(r + xmoves[i], c + ymoves[i], 1)){
+      int col = c + ymoves[i];
+      int row = r + xmoves[i];
+      if (!(col < 0 || row < 0 || col >= data[0].length || row >= data.length)){
         values[i] = datamoves[r + xmoves[i]][c + ymoves[i]];
-        newx[i] = ymoves[i];
-        removeKnight(r + xmoves[i], c + ymoves[i]);      
+        newy[i] = ymoves[i];
       }else{
         values[i] = 9;
-        newx[i] = ymoves[i];
+        newy[i] = ymoves[i];
       }
     }
     selectionSort(values, newy);
     return newy;
-  }
+  }*/
 
   private void findMoves(){
     for (int r = 0; r < data.length; r++){
@@ -212,6 +230,11 @@ public class KnightBoard{
     }
     if (data[row][col] == 0){
       data[row][col] = moveNumber;
+      for (int i = 0; i <= 7; i++){
+        if (!(col + ymoves[i] < 0 || row + xmoves[i] < 0 || col + ymoves[i] >= data[0].length || row + xmoves[i] >= data.length)){
+          datamoves[row + xmoves[i]][col + ymoves[i]] = datamoves[row + xmoves[i]][col + ymoves[i]] - 1;
+        }
+      }
       return true;
     }
     return false;
@@ -223,12 +246,17 @@ public class KnightBoard{
     }
     if (data[row][col] != 0){
       data[row][col] = 0;
+      for (int i = 0; i <= 7; i++){
+        if (!(col + ymoves[i] < 0 || row + xmoves[i] < 0 || col + ymoves[i] >= data[0].length || row + xmoves[i] >= data.length)){
+          datamoves[row + xmoves[i]][col + ymoves[i]] = datamoves[row + xmoves[i]][col + ymoves[i]] + 1;
+        }
+      }
       return true;
     }
     return false;
   }
 
-  public static void runTest(int i){
+/*  public static void runTest(int i){
 
     KnightBoard b;
     int[]m =   {4,5,5,5,5};
@@ -259,5 +287,5 @@ public class KnightBoard{
     for (int i = 0; i <= 4; i++){
       runTest(i);
     }
-  }
+  }*/
 }
