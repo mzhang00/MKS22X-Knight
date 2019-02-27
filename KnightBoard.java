@@ -88,6 +88,15 @@ public class KnightBoard{
     return false;
   }
 
+  private void optimizeX(int[] x){
+
+  }
+
+  
+  private void optimizeY(int[] y){
+    
+  }
+
   private void findMoves(){
     for (int r = 0; r < data.length; r++){
       for (int c = 0; c < data[0].length; c++){
