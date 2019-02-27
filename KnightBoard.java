@@ -21,7 +21,6 @@ public class KnightBoard{
 
   public String toString(){
     String ans = "";
-    int count = 1;
     for (int i = 0; i < data.length; i++){
       for (int c = 0; c < data[0].length; c++){
         if (data[i][c] < 10){
