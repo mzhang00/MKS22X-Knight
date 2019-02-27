@@ -4,7 +4,7 @@ public class KnightBoard{
   int[][] data;
   int[] xmoves = {1,1,2,2,-1,-1,-2,-2};
   int[] ymoves = {2,-2,1,-1,2,-2,1,-1};
-  ArrayList<Integer> moveList = new ArrayList<>();
+  //int[] totalmoves = {1,2,1,-2,2,1,2,-1,-1,2,-1,-2,-2,1,-2,-1};
   int[][] datamoves;
 
   public KnightBoard(int startingRows,int startingCols){
@@ -14,7 +14,6 @@ public class KnightBoard{
     data = new int[startingRows][startingCols];
     datamoves = new int[startingRows][startingCols];
     clearBoard();
-    clearMoves();
     findMoves();
   }
 
@@ -22,13 +21,6 @@ public class KnightBoard{
     for (int r = 0; r < data.length; r++){
       for (int c = 0; c < data[0].length; c++){
         data[r][c] = 0;
-      }
-    }
-  }
-
-  private void clearMoves(){
-    for (int r = 0; r < data.length; r++){
-      for (int c = 0; c < data[0].length; c++){
         datamoves[r][c] = 0;
       }
     }
@@ -78,7 +70,22 @@ public class KnightBoard{
   }
 
   private boolean solveO(int row, int col, int moveNumber){
-    return true;
+    if (moveNumber > data.length * data[0].length){
+      addKnight(row, col, moveNumber);
+      return true;
+    }else{
+      optimizeX(xmoves);
+      optimizeY(ymoves);
+      if (addKnight(row, col, moveNumber)){
+        for (int i = 0; i <= 7; i++){
+          if (solveO(row + xmoves[i], col + ymoves[i], moveNumber + 1)){
+            return true;
+          }
+        }
+        removeKnight(row, col);
+      }
+    }
+    return false;
   }
 
   private void findMoves(){
