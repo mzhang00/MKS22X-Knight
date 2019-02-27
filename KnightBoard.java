@@ -94,20 +94,21 @@ public class KnightBoard{
     if (startingCol < 0 || startingRow < 0 || startingCol >= data[0].length || startingRow >= data.length){
       throw new IllegalArgumentException();
     }
-    return countH(startingRow, startingCol, 1);
+    return countH(startingRow, startingCol, 1, 0, 0) / 8;
   }
 
-  private int countH(int row, int col, int moveNumber){
-    if (col < 0 || row < 0 || col >= data[0].length || row >= data.length){
-      return 0;
-    }
-    if (moveNumber == data.length * data[0].length){
-      return 1;
-    }
-    //need to fix :(
+  private int countH(int row, int col, int moveNumber, int oldrow, int oldcol){
     int counter = 0;
-    for (int i = 0; i <= 7; i++){
-      counter += countH(row + xmoves[i], col + ymoves[i], moveNumber + 1);
+    if (moveNumber > data.length * data[0].length){
+      removeKnight(oldrow, oldcol);
+      return 1;
+    }else{
+      if (addKnight(row, col, moveNumber)){
+        for (int i = 0; i <= 7; i++){
+          counter += countH(row + xmoves[i], col + ymoves[i], moveNumber + 1, row, col);
+        }
+        removeKnight(row, col);
+      }
     }
     return counter;
   }
